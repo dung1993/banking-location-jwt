@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link rel="stylesheet" href="/assets/bootstrap/v5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/fontawesome/v5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/assets/sweetalert2/sweetalert2.min.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="header">
+            <nav class="navbar bg-primary">
+                <div class="container-fluid">
+                    <h2>List of customers</h2>
+                    <div class="d-flex">
+                        <button id="btnShowCreateModal" class="btn btn-light">
+                            <i class="fas fa-plus"></i>
+                            Create
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <div class="content">
+            <table id="tbCustomer" class="table table-hover">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>#</th>
+                    <th>Full name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Balance</th>
+                    <th>Province</th>
+                    <th>District</th>
+                    <th>Ward</th>
+                    <th>Address</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal Create -->
+    <div id="modalCreate" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal create customer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-alert-danger hide"></div>
+                    <form id="frmCreateCustomer" class="" method="post">
+                        <div class="row mb-3">
+                            <div class="col-lg-4">
+                                <label for="fullNameCre" class="form-label">Full name</label>
+                                <input type="text" class="form-control" id="fullNameCre" name="fullNameCre"/>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="emailCre" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="emailCre" name="emailCre"/>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="phoneCre" class="form-label">Phone</label>
+                                <input type="tel" class="form-control" id="phoneCre" name="phoneCre"/>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-lg-3">
+                                <label for="provinceCre" class="form-label">Province</label>
+                                <select name="provinceCre" id="provinceCre" class="form-select"></select>
+                            </div>
+                            <div class="col-lg-3">
+                                <label for="districtCre" class="form-label">District</label>
+                                <select name="districtCre" id="districtCre" class="form-select"></select>
+                            </div>
+                            <div class="col-lg-3">
+                                <label for="wardCre" class="form-label">Ward</label>
+                                <select name="wardCre" id="wardCre" class="form-select"></select>
+                            </div>
+                            <div class="col-lg-3">
+                                <label for="addressCre" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="addressCre" name="addressCre"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnCreateCustomer">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal update -->
+    <div id="modalUpdate" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal create customer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-alert-danger hide"></div>
+                    <form id="frmUpdateCustomer" class="" method="post">
+                        <div class="row mb-3">
+                            <input type="hidden" id="customerIdUp" name="customerIdUp">
+                            <div class="col-lg-4">
+                                <label for="fullNameUp" class="form-label">Full name</label>
+                                <input type="text" class="form-control" id="fullNameUp" name="fullNameUp"/>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="emailUp" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="emailUp" name="emailUp"/>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="phoneUp" class="form-label">Phone</label>
+                                <input type="tel" class="form-control" id="phoneUp" name="phoneUp"/>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <input type="hidden" id="locationRegionIdUp">
+                            <div class="col-lg-3">
+                                <label for="provinceUp" class="form-label">Province</label>
+                                <select name="provinceUp" id="provinceUp" class="form-select"></select>
+                            </div>
+                            <div class="col-lg-3">
+                                <label for="districtUp" class="form-label">District</label>
+                                <select name="districtUp" id="districtUp" class="form-select"></select>
+                            </div>
+                            <div class="col-lg-3">
+                                <label for="wardUp" class="form-label">Ward</label>
+                                <select name="wardUp" id="wardUp" class="form-select"></select>
+                            </div>
+                            <div class="col-lg-3">
+                                <label for="addressUp" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="addressUp" name="addressUp"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-edit" id="btnUpdateCustomer">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal deposit -->
+    <div id="modalDeposit" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal deposit</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-alert-danger hide"></div>
+                    <form id="frmDeposit" class="" method="post">
+                        <div class="row mb-3">
+                            <div class="col-lg-6">
+                                <label for="idDep" class="form-label">Id</label>
+                                <input type="text" class="form-control" id="idDep" name="idDep" readonly/>
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="fullNameDep" class="form-label">Full name</label>
+                                <input type="text" class="form-control" id="fullNameDep" name="fullNameDep" readonly/>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="mb-3 col-lg-6">
+                                <label for="balanceDep" class="form-label">Balance</label>
+                                <input type="text" class="form-control" id="balanceDep" name="balanceDep" readonly/>
+                            </div>
+                            <div class="mb-3 col-lg-6">
+                                <label for="transactionAmountDep" class="form-label">TransactionAmount</label>
+                                <input type="text" class="form-control" id="transactionAmountDep"
+                                       name="transactionAmountDep"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-light" id="btnDeposit">Deposit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="container-fluid hide">
+        <div class="container">
+
+        </div>
+    </footer>
+
+    <script src="/assets/jquery/jquery-v3.6.0.min.js"></script>
+    <script src="/assets/jquery/jquery.validate.min.js"></script>
+    <script src="/assets/bootstrap/v5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="/assets/js/appbase.js"></script>
+
+    <script>
+
+        const page = {
+            urls: {
+                getAllCustomers: AppBase.API_CUSTOMER,
+                findCustomerById: AppBase.DOMAIN_API + "/customers",
+                createCustomer: AppBase.API_CUSTOMER,
+                updateCustomerById: AppBase.DOMAIN_API + "/customers",
+                doDeposit: AppBase.DOMAIN_API + '/deposits',
+                deleteDeposit: AppBase.DOMAIN_API + '/deposits',
+                deleteCustomerById: AppBase.DOMAIN_API + "/customers"
+            },
+            elements: {},
+            loadData: {},
+            commands: {},
+            dialogs: {
+                elements: {},
+                loadData: {},
+                commands: {}
+            }
+        }
+
+
+        let customers = [];
+        let currentCustomer = null;
+        let currentCustomerId;
+
+        let locationRegion = new LocationRegion();
+        let customer = new Customer();
+        let deposit = new Deposit();
+
+
+        page.elements.btnShowCreateModal = $('#btnShowCreateModal');
+        page.dialogs.elements.modalCreate = $('#modalCreate');
+        page.dialogs.elements.frmCreateCustomer = $('#frmCreateCustomer');
+        page.dialogs.elements.fullNameCre = $('#fullNameCre');
+        page.dialogs.elements.emailCre = $('#emailCre');
+        page.dialogs.elements.phoneCre = $('#phoneCre');
+        page.dialogs.elements.provinceCre = $('#provinceCre');
+        page.dialogs.elements.districtCre = $('#districtCre');
+        page.dialogs.elements.wardCre = $('#wardCre');
+        page.dialogs.elements.addressCre = $('#addressCre');
+        page.dialogs.elements.btnCreate = $('#btnCreateCustomer')
+
+
+        page.dialogs.elements.btnUpdateCustomer = $('#btnUpdateCustomer');
+        page.dialogs.elements.modalUpdate = $('#modalUpdate');
+        page.dialogs.elements.frmUpdateCustomer = $('#frmUpdateCustomer');
+        page.dialogs.elements.customerIdUp = $("#customerIdUp");
+        page.dialogs.elements.fullNameUp = $('#fullNameUp');
+        page.dialogs.elements.emailUp = $('#emailUp');
+        page.dialogs.elements.phoneUp = $('#phoneUp');
+        page.dialogs.elements.locationRegionIdUp = $('#locationRegionIdUp');
+        page.dialogs.elements.provinceUp = $('#provinceUp');
+        page.dialogs.elements.districtUp = $('#districtUp');
+        page.dialogs.elements.wardUp = $('#wardUp');
+        page.dialogs.elements.addressUp = $('#addressUp');
+
+        page.dialogs.elements.modalDeposit = $('#modalDeposit');
+        page.dialogs.elements.frmDeposit = $('#frmDeposit');
+        page.dialogs.elements.idDep = $('#idDep');
+        page.dialogs.elements.fullNameDep = $('#fullNameDep');
+        page.dialogs.elements.balanceDep = $('#balanceDep');
+        page.dialogs.elements.transactionAmountDep = $('#transactionAmountDep');
+        page.dialogs.elements.btnDeposit = $('#btnDeposit');
+
+        page.loadData.getAllCustomers = () => {
+            $.ajax({
+                type: "GET",
+                url: page.urls.getAllCustomers
+            })
+                .done((data) => {
+                    $.each(data, (i, item) => {
+                        customer = item;
+                        locationRegion = customer.locationRegion;
+                        let str = renderCustomer(customer, locationRegion);
+                        $('#tbCustomer tbody').prepend(str);
+                    })
+
+                    page.commands.addEventShowActionButton();
+                })
+                .fail((error) => {
+                    console.error(error);
+                })
+        }
+
+        page.dialogs.loadData.getAllProvinces = () => {
+            return $.ajax({
+                type: 'GET',
+                url: 'https://vapi.vnappmob.com/api/province/'
+            })
+                .done((data) => {
+                    $.each(data.results, (i, item) => {
+                        let str = `<option value="${item.province_id}">${item.province_name}</option>`;
+
+                        page.dialogs.elements.provinceCre.append(str);
+                        page.dialogs.elements.provinceUp.append(str);
+                    })
+                    page.dialogs.commands.addLocationRegionToSelector();
+
+                })
+                .fail((jqXHR) => {
+                    AppBase.SweetAlert.showErrorAlert('Load Provinces fail');
+                })
+        }
+
+        page.dialogs.loadData.getAllDistrictsByProvince = (provinceId) => {
+            return $.ajax({
+                type: 'GET',
+                url: 'https://vapi.vnappmob.com/api/province/district/' + provinceId
+            })
+                .done((data) => {
+                    let str = "";
+                    $.each(data.results, (i, item) => {
+                        str += `<option value="${item.district_id}">${item.district_name}</option>`;
+
+                    })
+                    page.dialogs.elements.districtCre.empty().append(str);
+                    page.dialogs.elements.districtUp.empty().append(str);
+                })
+                .fail((jqXHR) => {
+                    AppBase.SweetAlert.showErrorAlert('Load Districts fail');
+                })
+        }
+
+        page.dialogs.loadData.getAllWardsByDistrict = (districtId) => {
+            $.ajax({
+                type: 'GET',
+                url: 'https://vapi.vnappmob.com/api/province/ward/' + districtId
+            })
+                .done((data) => {
+                    let str = "";
+                    $.each(data.results, (i, item) => {
+                        str += `<option value="${item.ward_id}">${item.ward_name}</option>`;
+
+                    })
+                    page.dialogs.elements.wardCre.empty().append(str);
+                    page.dialogs.elements.wardUp.empty().append(str);
+                })
+                .fail((jqXHR) => {
+                    AppBase.SweetAlert.showErrorAlert('Load Wards fail');
+                })
+        }
+
+        page.dialogs.commands.addLocationRegionToSelector = () => {
+            page.dialogs.elements.provinceCre.on('change', () => {
+                page.dialogs.loadData.getAllDistrictsByProvince(page.dialogs.elements.provinceCre.val()).then((districts) => {
+                    page.dialogs.loadData.getAllWardsByDistrict(districts.result[0].district_id,)
+                })
+            })
+            page.dialogs.elements.districtCre.on('change', () => {
+                page.dialogs.loadData.getAllWardsByDistrict(page.dialogs.elements.districtCre.val(),)
+            })
+        }
+
+        page.dialogs.loadData.getAddressInfo = () => {
+            page.dialogs.loadData.getAllProvinces().then((provinces) => {
+                page.dialogs.loadData.getAllDistrictsByProvince(provinces.results[0].province_id).then((districts) => {
+                    page.dialogs.loadData.getAllWardsByDistrict(districts.results[0].district_id,);
+                });
+            });
+        };
+
+        page.commands.addEventShowActionButton = () => {
+            $('#tbCustomer tbody tr').on('click', function () {
+
+                $('#tbCustomer tbody tr').find('td:eq(0)').find('span').removeClass('selected').addClass('unselected');
+                $(this).find('td').first().find('span').removeClass('unselected').addClass('selected');
+
+                currentCustomerId = $(this).attr("id").replace("tr_", "");
+
+                let str = `
+                    <button class="btn btn-secondary edit" data-id="${currentCustomerId}">
+                        <i class="far fa-edit"></i>
+                        Update
+                    </button>
+                    <button class="btn btn-success deposit" data-id="${currentCustomerId}">
+                        <i class="fas fa-plus"></i>
+                        Deposit
+                    </button>
+                    <button class="btn btn-warning" data-id="${currentCustomerId}">
+                        <i class="fas fa-minus"></i>
+                        Withdraw
+                    </button>
+                    <button class="btn btn-primary" data-id="${currentCustomerId}">
+                        <i class="fas fa-exchange-alt"></i>
+                        Transfer
+                    </button>
+                    <button class="btn btn-danger delete" data-id="${currentCustomerId}">
+                        <i class="fas fa-trash-alt"></i>
+                        Delete
+                    </button>
+                `;
+
+                $('footer').removeClass('hide');
+                $('footer .container').html(str);
+
+                page.dialogs.commands.addEventUpdateCustomer();
+                page.dialogs.commands.addEventDeposit();
+                addEventDeleteCustomer();
+
+                page.commands.addEventFooterButton();
+            })
+        }
+
+
+        page.commands.addEventFooterButton = () => {
+            $('footer button').on('click', () => {
+                $('footer').addClass('hide');
+                $('footer .container').empty();
+            })
+        }
+
+
+        // Create Customer //
+
+        page.elements.btnShowCreateModal.on('click', () => {
+            page.dialogs.elements.modalCreate.modal('show');
+        })
+
+        let doCreateCustomer = () => {
+            // let id = generateId();
+            let fullName = page.dialogs.elements.fullNameCre.val();
+            let email = page.dialogs.elements.emailCre.val();
+            let phone = page.dialogs.elements.phoneCre.val();
+            let provinceId = page.dialogs.elements.provinceCre.val();
+            let provinceName = page.dialogs.elements.provinceCre.find('option:selected').text();
+            let districtId = page.dialogs.elements.districtCre.val();
+            let districtName = page.dialogs.elements.districtCre.find('option:selected').text();
+            let wardId = page.dialogs.elements.wardCre.val();
+            let wardName = page.dialogs.elements.wardCre.find('option:selected').text();
+            let address = page.dialogs.elements.addressCre.val();
+            let balance = 0;
+            let deleted = 0;
+
+            // locationRegion.id = null;
+            locationRegion.provinceId = provinceId;
+            locationRegion.provinceName = provinceName;
+            locationRegion.districtId = districtId;
+            locationRegion.districtName = districtName;
+            locationRegion.wardId = wardId;
+            locationRegion.wardName = wardName;
+            locationRegion.address = address;
+
+            customer.id = null;
+            customer.fullName = fullName;
+            customer.email = email;
+            customer.phone = phone;
+            customer.locationRegion = locationRegion;
+            customer.balance = balance;
+            customer.deleted = deleted;
+
+            // customers.push(customer);
+
+            $.ajax({
+                headers: {
+                    'accept': 'application/json',
+                    'content-type': 'application/json'
+                },
+                type: "POST",
+                url: page.urls.createCustomer,
+                data: JSON.stringify(customer)
+            })
+                .done((data) => {
+                    customer = data;
+                    locationRegion = customer.locationRegion;
+
+                    let str = renderCustomer(customer, locationRegion);
+                    $('#tbCustomer tbody').prepend(str);
+
+                    removeEventCreateCustomer();
+                    addEventUpdateCustomer();
+
+                    $('#modalCreate').modal('hide');
+
+                    AppBase.SweetAlert.showSuccessAlert('New customer is created successfully');
+                })
+                .fail((jqXHR) => {
+                    let errors = jqXHR.responseJSON;
+
+                    let str = '';
+                    $.each(errors, (k, v) => {
+                        str += `<label for="${k}Cre">${v}</label>`;
+                    })
+
+                    $('#modalCreate .modal-body .modal-alert-danger').append(str);
+                    $('#modalCreate .modal-body .modal-alert-danger').removeClass('hide').addClass('show');
+
+                    // AppBase.SweetAlert.showErrorAlert('Create new customer failed');
+                })
+        }
+
+        page.dialogs.elements.frmCreateCustomer.validate({
+            rules: {
+                fullNameCre: {
+                    required: true,
+                    minlength: 5,
+                    maxlength: 20
+                },
+                emailCre: {
+                    required: true,
+                    minlength: 5,
+                    maxlength: 40
+                }
+            },
+            messages: {
+                fullNameCre: {
+                    required: 'Full name is required',
+                    minlength: 'Min character of full name is ${0}',
+                    maxlength: 'Max character of full name is ${0}'
+                },
+                emailCre: {
+                    required: 'Email is required',
+                    minlength: 'Min character of email is ${0}',
+                    maxlength: 'Max character of email is ${0}'
+                }
+            },
+            errorLabelContainer: "#modalCreate .modal-alert-danger",
+            errorPlacement: function (error, element) {
+                error.appendTo("#modalCreate .modal-alert-danger");
+            },
+            showErrors: function (errorMap, errorList) {
+                if (this.numberOfInvalids() > 0) {
+                    $("#modalCreate .modal-alert-danger").removeClass("hide").addClass("show");
+                } else {
+                    $("#modalCreate .modal-alert-danger").removeClass("show").addClass("hide").empty();
+                    $("#frmCreateCustomer input.error").removeClass("error");
+                }
+                this.defaultShowErrors();
+            },
+            submitHandler: function () {
+                doCreateCustomer();
+            }
+        });
+
+        page.dialogs.elements.btnCreate.on('click', () => {
+            page.dialogs.elements.frmCreateCustomer.trigger('submit');
+        })
+
+        // Update CusTomer //
+
+        page.loadData.findCustomerById = (id) => {
+            return $.ajax({
+                type: "GET",
+                url: page.urls.findCustomerById + '/' + id
+            })
+        }
+
+        // let updateCustomerById = (obj) => {
+        //     customers.filter(item => {
+        //         if (item.id == obj.id) {
+        //             item.fullName = obj.fullName;
+        //             item.email = obj.email;
+        //             item.phone = obj.phone;
+        //             item.locationRegion = obj.locationRegion;
+        //         }
+        //     })
+        // }
+
+        page.dialogs.commands.addEventUpdateCustomer = () => {
+            $('.edit').on('click', function () {
+                let id = $(this).data('id');
+
+                page.loadData.findCustomerById(id).done((data) => {
+
+                    customer = data;
+                    locationRegion = customer.locationRegion;
+
+                    page.dialogs.elements.customerIdUp.val(id);
+                    page.dialogs.elements.fullNameUp.val(customer.fullName);
+                    page.dialogs.elements.emailUp.val(customer.email);
+                    page.dialogs.elements.phoneUp.val(customer.phone);
+
+                    page.dialogs.elements.locationRegionIdUp.val(locationRegion.id);
+                    page.dialogs.elements.provinceUp.val(customer.locationRegion.provinceId);
+                    page.dialogs.elements.provinceUp.on('change', () => {
+                        page.dialogs.loadData.getAllDistrictsByProvince(page.dialogs.elements.provinceUp.val()).then((districts) => {
+                            page.dialogs.loadData.getAllWardsByDistrict(districts.result[0].district_id,)
+                        })
+                    })
+                    page.dialogs.elements.districtUp.on('change', () => {
+                        page.dialogs.loadData.getAllWardsByDistrict(page.dialogs.elements.districtUp.val(),)
+                    })
+                    page.dialogs.loadData.getAddressInfo();
+                    page.dialogs.elements.addressUp.val(locationRegion.address);
+                    page.dialogs.elements.modalUpdate.modal('show');
+                })
+            })
+        }
+
+        page.dialogs.elements.btnUpdateCustomer.on("click", () => {
+            page.dialogs.elements.frmUpdateCustomer.submit();
+        })
+
+        page.dialogs.elements.removeEventUpdateCustomer = () => {
+            $('.edit').off('click');
+        }
+
+        page.dialogs.elements.btnUpdateCustomer = (obj) => {
+            $.ajax({
+                headers: {
+                    "accept": "application/json",
+                    "content-type": "application/json"
+                },
+                type: "PATCH",
+                url: page.urls.updateCustomerById + "/" + obj.id,
+                data: JSON.stringify(obj)
+            })
+                .done((data) => {
+                    customers.filter(data => {
+                        if (data.id === obj.id) {
+                            data.fullName = obj.fullName;
+                            data.email = obj.email;
+                            data.phone = obj.phone;
+                            data.locationRegion = obj.locationRegion;
+                        }
+                    })
+                    customer = data;
+                    locationRegion = customer.locationRegion;
+                    let str = renderCustomer(customer, locationRegion);
+                    let updateRow = $("#tr_" + obj.id);
+                    updateRow.replaceWith(str);
+
+
+                    page.dialogs.elements.removeEventUpdateCustomer();
+                    page.dialogs.elements.addEventUpdateCustomer();
+
+                    page.dialogs.elements.addEventUpdateCustomer.modal("hide");
+                    iziToast.success({
+                        title: 'OK',
+                        position: 'topRight',
+                        timeout: 2500,
+                        message: "Chỉnh sửa khách hàng <b>'" + obj.fullName + "'</b> thành công.",
+                    });
+                })
+                .fail((jqXHR) => {
+                    let errors = jqXHR.responseJSON;
+                    if (errors) {
+                        let str = "";
+                        $.each(errors, (k, v) => {
+                            str += `
+                            <label class="error" for="${k + 'Up'}">${v}</label>
+                        `;
+                        })
+                        $("#modalUpdate .modal-alert-danger").removeClass("hide").addClass("show");
+                        $("#modalUpdate .modal-alert-danger").css("display", "block")
+                        $("#modalUpdate .modal-alert-danger").append(str);
+                    }
+                })
+        }
+
+        page.dialogs.elements.frmUpdateCustomer.validate({
+            rules: {
+                fullNameUp: {
+                    required: true,
+                    minlength: 5,
+                    maxlength: 50
+                },
+                emailUp: {
+                    required: true,
+                    minlength: 5,
+                    maxlength: 50,
+                    email: true
+                },
+                phoneUp: {
+                    // phone_valid: true,
+                    required: true,
+                }
+            },
+            messages: {
+                fullNameUp: {
+                    required: "Vui lòng nhập tên đầy đủ",
+                    minlength: "Độ dài tối thiểu là 5 ký tự",
+                    maxlength: "Độ dài tối đa là 100 ký tự"
+                },
+                emailUp: {
+                    required: "Vui lòng nhập email đầy đủ",
+                    minlength: "Độ dài tối thiểu là 5 ký tự",
+                    maxlength: "Độ dài tối đa là 100 ký tự",
+                    email: "Định dạng email không đúng"
+                },
+                phoneUp: {
+                    // phone_valid: "Định dạng số điện thoại không đúng",
+                    required: "Vui lòng nhập số điện thoại đầy đủ"
+                }
+            },
+            errorLabelContainer: "#modalUpdateCustomer .modal-body .modal-alert-danger",
+            errorPlacement: function (error) {
+                error.appendTo("#modalUpdateCustomer .modal-body .modal-alert-danger");
+            },
+            showErrors: function () {
+                if (this.numberOfInvalids() > 0) {
+                    $("#modalUpdate .modal-alert-danger").removeClass("hide").addClass("show");
+                } else {
+                    $("#modalUpdate .modal-alert-danger").removeClass("show").addClass("hide").empty();
+                    $("#frmUpdateCustomer input.error").removeClass("error");
+                }
+                this.defaultShowErrors();
+            },
+            submitHandler: function () {
+                customer.id = page.dialogs.elements.customerIdUp.val();
+                customer.fullName = page.dialogs.elements.fullNameUp.val();
+                customer.email = page.dialogs.elements.emailUp.val();
+                customer.phone = page.dialogs.elements.phoneUp.val();
+
+                locationRegion.id = page.dialogs.elements.locationRegionIdUp.val();
+                locationRegion.provinceId = page.dialogs.elements.provinceUp.val();
+                locationRegion.provinceName = page.dialogs.elements.provinceUp.find("option:selected").text();
+                locationRegion.districtId = page.dialogs.elements.districtUp.val();
+                locationRegion.districtName = page.dialogs.elements.districtUp.find("option:selected").text();
+                locationRegion.wardId = page.dialogs.elements.wardUp.val();
+                locationRegion.wardName = page.dialogs.elements.wardUp.find("option:selected").text();
+                locationRegion.address = page.dialogs.elements.addressUp.val();
+
+                customer.locationRegion = locationRegion;
+                page.dialogs.elements.btnUpdateCustomer(customer);
+
+            }
+        })
+
+
+
+
+
+        let addEventDeleteCustomer = () => {
+            $('.delete').on('click', function () {
+                let id = $(this).data('id');
+
+                AppBase.SweetAlert.showDeleteConfirmDialog().then(result => {
+                    if (result.isConfirmed) {
+                        page.commands.checkCustomerById(id).then(() => {
+                            page.commands.deleteCustomer(id);
+                        })
+                            .catch(() => {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'error',
+                                    title: 'Customer not found',
+                                })
+                            })
+                    }
+                })
+            })
+        }
+
+        page.dialogs.commands.addEventDeposit = () => {
+            $('.deposit').on('click', function () {
+
+                let customerId = $(this).data('id');
+
+                page.loadData.findCustomerById(customerId).then((data) => {
+                    currentCustomer = data;
+
+                    page.dialogs.elements.idDep.val(currentCustomer.id);
+                    page.dialogs.elements.fullNameDep.val(currentCustomer.fullName);
+                    page.dialogs.elements.balanceDep.val(currentCustomer.balance);
+
+                    page.dialogs.elements.modalDeposit.modal('show');
+                })
+                    .catch((errors) => {
+                        let error = errors.responseJSON.message;
+                        AppBase.SweetAlert.showErrorAlert(error);
+                    })
+            })
+        }
+
+        page.commands.checkCustomerById = (id) => {
+            return $.ajax({
+                type: 'PATCH',
+                url: page.urls.findCustomerById + '/' + id
+            })
+                .fail((error) => {
+                    console.log(error);
+                })
+        }
+
+        page.commands.deleteCustomer = (id) => {
+            $.ajax({
+                headers: {
+                    'accept': 'application/json',
+                    'content-type': 'application/json'
+                },
+                type: 'PATCH',
+                url: page.urls.deleteCustomerById + '/' + id,
+                data: JSON.stringify({deleted: 1})
+            })
+                .done(() => {
+
+                    $('#tr_' + id).remove();
+
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Customer has been deleted.',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                })
+                .fail(() => {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Failed to delete customer',
+                    })
+                })
+        }
+
+
+
+        let removeEventDeleteCustomer = () => {
+            $('.delete').off('click');
+        }
+
+
+
+
+
+        page.dialogs.elements.btnDeposit.on('click', () => {
+            page.dialogs.elements.frmDeposit.trigger('submit');
+        })
+
+
+        page.dialogs.commands.doDeposit = () => {
+            let currentBalance = currentCustomer.balance;
+            let transactionAmountDep = +page.dialogs.elements.transactionAmountDep.val();
+            let newBalance = currentBalance + transactionAmountDep;
+            currentCustomer.balance = newBalance;
+
+            deposit.fullName = currentCustomer.fullName;
+            deposit.transactionAmount = transactionAmountDep;
+
+            page.dialogs.commands.createDeposit().then((data) => {
+                page.dialogs.commands.incrementCustomerBalance(currentCustomer).then(() => {
+                    AppBase.SweetAlert.showSuccessAlert('Deposit success');
+                })
+                    .catch(() => {
+                        page.dialogs.commands.deleteDeposit(deposit);
+
+                        AppBase.SweetAlert.showErrorAlert('Update customer fail');
+                    });
+            })
+                .catch(() => {
+                    AppBase.SweetAlert.showErrorAlert('Deposit fail');
+                });
+        }
+
+        page.dialogs.commands.createDeposit = () => {
+            return $.ajax({
+                headers: {
+                    'accept': 'application/json',
+                    'content-type': 'application/json'
+                },
+                type: 'POST',
+                url: page.urls.doDeposit,
+                data: JSON.stringify(deposit)
+            })
+                .done((data) => {
+                    deposit = data;
+                })
+        }
+
+        page.dialogs.commands.incrementCustomerBalance = (customer) => {
+            return $.ajax({
+                headers: {
+                    'accept': 'application/json',
+                    'content-type': 'application/json'
+                },
+                type: 'PATCH',
+                url: page.urls.updateCustomerById + '/' + customer.id,
+                data: JSON.stringify(customer)
+            })
+        }
+
+        page.dialogs.commands.deleteDeposit = () => {
+            $.ajax({
+                headers: {
+                    'accept': 'application/json',
+                    'content-type': 'application/json'
+                },
+                type: 'DELETE',
+                url: page.urls.deleteDeposit + '/' + deposit.id
+            })
+        }
+
+        let generateId = () => {
+            return Math.random().toString(16).slice(13);
+        }
+
+        let renderCustomer = (customer, locationRegion) => {
+            return `
+                <tr id="tr_${customer.id}">
+                    <td><span class="select-tab unselected"></span></td>
+                    <td>${customer.id}</td>
+                    <td>${customer.fullName}</td>
+                    <td>${customer.email}</td>
+                    <td>${customer.phone}</td>
+                    <td>${customer.balance}</td>
+                    <td>${locationRegion.provinceName}</td>
+                    <td>${locationRegion.districtName}</td>
+                    <td>${locationRegion.wardName}</td>
+                    <td>${locationRegion.address}</td>
+                </tr>
+            `;
+        }
+
+        $('#modalCreate').on('hidden.bs.modal', () => {
+            $('#frmCreateCustomer')[0].reset();
+            $('#frmCreateCustomer').validate().resetForm();
+
+            $('#modalCreate .modal-alert-danger').empty().removeClass("show").addClass("hide");
+            $('#frmCreateCustomer').find("input.error").removeClass("error");
+        })
+
+
+
+
+        page.dialogs.elements.frmDeposit.validate({
+            rules: {
+                transactionAmountDep: {
+                    required: true,
+                    number: true,
+                    min: 1000,
+                    max: 1000000
+                }
+            },
+            messages: {
+                transactionAmountDep: {
+                    required: 'Transaction amount is required',
+                    number: 'Transaction amount must be number',
+                    min: 'Transaction amount must be more than ${0}',
+                    max: 'Transaction amount must be less than ${0}'
+                }
+            },
+            errorLabelContainer: "#modalDeposit .modal-alert-danger",
+            errorPlacement: function (error, element) {
+                error.appendTo("#modalDeposit .modal-alert-danger");
+            },
+            showErrors: function (errorMap, errorList) {
+                if (this.numberOfInvalids() > 0) {
+                    $("#modalDeposit .modal-alert-danger").removeClass("hide").addClass("show");
+                } else {
+                    $("#modalDeposit .modal-alert-danger").removeClass("show").addClass("hide").empty();
+                    $("#frmDeposit input.error").removeClass("error");
+                }
+                this.defaultShowErrors();
+            },
+            submitHandler: function () {
+                page.dialogs.commands.doDeposit();
+            }
+        });
+
+
+        $(() => {
+            page.loadData.getAllCustomers();
+
+            page.dialogs.loadData.getAllProvinces().then(() => {
+                let provinceId = page.dialogs.elements.provinceCre.find('option:eq(0)').prop('selected', true).val();
+
+                page.dialogs.loadData.getAllDistrictsByProvince(provinceId).then(() => {
+                    let districtId = page.dialogs.elements.districtCre.find('option:eq(0)').prop('selected', true).val();
+
+                    page.dialogs.loadData.getAllWardsByDistrict(districtId);
+                });
+            });
+        })
+
+
+
+
+    </script>
+
+</body>
+</html>
